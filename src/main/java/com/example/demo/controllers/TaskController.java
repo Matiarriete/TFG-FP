@@ -24,4 +24,22 @@ public class TaskController {
     public @ResponseBody Optional<Tasks> getAllTask(@RequestParam Integer id){
         return taskRepository.findById(id);
     }
+
+    @PostMapping(path = "/add")
+    public @ResponseBody String createTasks(@RequestBody Tasks task) {
+        taskRepository.save(task);
+        return "Saved";
+    }
+
+    @DeleteMapping(params = "id")
+    public @ResponseBody String removeTasks(@RequestParam Integer id) {
+        taskRepository.deleteById(id);
+        return "Removed";
+    }
+
+    @DeleteMapping
+    public @ResponseBody String removeMultipleTasks(@RequestBody Iterable<Integer> ids) {
+        taskRepository.deleteAllById(ids);
+        return "Removed all tasks";
+    }
 }

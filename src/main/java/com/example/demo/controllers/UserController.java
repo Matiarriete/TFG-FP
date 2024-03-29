@@ -40,7 +40,7 @@ public class UserController {
     @PutMapping(params = "id")
     public @ResponseBody String updateUser(@RequestBody User user, @RequestParam Integer id) {
         Optional<User> newUser = userRepository.findById(id);
-        if (newUser.isPresent()) {
+        if (user.getUsuario() == null || user.getEmail() == null) {
             if (user.getEmail() == null) user.setEmail(newUser.get().getEmail());
             if (user.getUsuario() == null) user.setUsuario(newUser.get().getUsuario());
             userRepository.save(user);
