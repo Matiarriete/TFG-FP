@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.Constants;
 import com.example.demo.entities.Tasks;
 import com.example.demo.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +29,18 @@ public class TaskController {
     @PostMapping(path = "/add")
     public @ResponseBody String createTasks(@RequestBody Tasks task) {
         taskRepository.save(task);
-        return "Saved";
+        return Constants.SAVED;
     }
 
     @DeleteMapping(params = "id")
     public @ResponseBody String removeTasks(@RequestParam Integer id) {
         taskRepository.deleteById(id);
-        return "Removed";
+        return Constants.DELETED;
     }
 
     @DeleteMapping
     public @ResponseBody String removeMultipleTasks(@RequestBody Iterable<Integer> ids) {
         taskRepository.deleteAllById(ids);
-        return "Removed all tasks";
+        return Constants.DELETED;
     }
 }

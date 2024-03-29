@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
+import com.example.demo.Constants;
 import com.example.demo.entities.User;
-import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping(path="/add")
     public @ResponseBody String addNewUser (@RequestBody User user) {
         userRepository.save(user);
-        return "Saved";
+        return Constants.SAVED;
     }
 
     @GetMapping
@@ -34,19 +34,21 @@ public class UserController {
     @DeleteMapping(params = "id")
     public @ResponseBody String deleteUser(@RequestParam Integer id) {
         userRepository.deleteById(id);
-        return "Deleted";
+        return Constants.DELETED;
     }
 
     @PutMapping(params = "id")
-    public @ResponseBody String updateUser(@RequestBody User user, @RequestParam Integer id) {
+    public @ResponseBody String updateUser(@RequestParam Integer id, @RequestBody User user) {
         Optional<User> newUser = userRepository.findById(id);
-        if (user.getUsuario() == null || user.getEmail() == null) {
+        if (newUser.isPresent()) {
+//        if (user.getUsuario() != null || user.getEmail() != null) {
             if (user.getEmail() == null) user.setEmail(newUser.get().getEmail());
             if (user.getUsuario() == null) user.setUsuario(newUser.get().getUsuario());
             userRepository.save(user);
-            return "Saved";
+            userRepository.deleteById(newUser.get().getIdUsuarios());
+            return Constants.SAVED;
         } else {
-            throw new ResourceNotFoundException();
+            return Constants.USER_NOT_FOUND;
         }
     }
 }
