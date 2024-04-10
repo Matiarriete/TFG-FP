@@ -41,12 +41,15 @@ public class UserController {
     public @ResponseBody String updateUser(@RequestParam Integer id, @RequestBody User user) {
         Optional<User> newUser = userRepository.findById(id);
         if (newUser.isPresent()) {
-//        if (user.getUsuario() != null || user.getEmail() != null) {
-            if (user.getEmail() == null) user.setEmail(newUser.get().getEmail());
-            if (user.getUsuario() == null) user.setUsuario(newUser.get().getUsuario());
-            userRepository.save(user);
-            userRepository.deleteById(newUser.get().getIdUsuarios());
-            return Constants.SAVED;
+            if (user.getUsuario() != null || user.getEmail() != null) {
+                if (user.getEmail() == null) user.setEmail(newUser.get().getEmail());
+                if (user.getUsuario() == null) user.setUsuario(newUser.get().getUsuario());
+                userRepository.save(user);
+                userRepository.deleteById(newUser.get().getIdUsuarios());
+                return Constants.SAVED;
+            } else {
+                return Constants.EMPTY_BODY;
+            }
         } else {
             return Constants.USER_NOT_FOUND;
         }

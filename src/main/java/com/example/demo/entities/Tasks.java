@@ -2,6 +2,8 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "Tareas")
 public class Tasks {
@@ -18,6 +20,11 @@ public class Tasks {
     @ManyToOne
     @JoinColumn(name = "usuarios_idusuarios")
     private User user;
+    @Column(name = "date")
+    private Date date;
+    @Column(name = "done")
+    private Boolean done;
+
 
     public User getUser() {
         return user;
@@ -57,5 +64,21 @@ public class Tasks {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
     }
 }
