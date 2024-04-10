@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "Tareas")
@@ -21,7 +22,7 @@ public class Tasks {
     @JoinColumn(name = "usuarios_idusuarios")
     private User user;
     @Column(name = "date")
-    private Date date;
+    private Timestamp date;
     @Column(name = "done")
     private Boolean done;
 
@@ -66,11 +67,11 @@ public class Tasks {
         this.priority = priority;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
