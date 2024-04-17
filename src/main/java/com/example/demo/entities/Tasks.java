@@ -2,8 +2,8 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Entity
 @Table(name = "Tareas")
@@ -67,8 +67,9 @@ public class Tasks {
         this.priority = priority;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        return dateFormat.format(date);
     }
 
     public void setDate(Timestamp date) {
