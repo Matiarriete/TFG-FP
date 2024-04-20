@@ -42,10 +42,9 @@ public class UserController {
         Optional<User> newUser = userRepository.findById(id);
         if (newUser.isPresent()) {
             if (user.getUsuario() != null || user.getEmail() != null) {
-                if (user.getEmail() == null) user.setEmail(newUser.get().getEmail());
-                if (user.getUsuario() == null) user.setUsuario(newUser.get().getUsuario());
-                userRepository.save(user);
-                userRepository.deleteById(newUser.get().getIdUsuarios());
+                if (user.getEmail() != null) newUser.get().setEmail(user.getEmail());
+                if (user.getUsuario() != null) newUser.get().setUsuario(user.getUsuario());
+                userRepository.save(newUser.get());
                 return Constants.SAVED;
             } else {
                 return Constants.EMPTY_BODY;
