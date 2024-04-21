@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -55,5 +59,26 @@ public class TaskController {
         } else {
             return Constants.TASK_NOT_FOUND;
         }
+    }
+
+    @PutMapping(params = "id", path = "/update")
+    public @ResponseBody String updateTask(@RequestParam Integer id, @RequestBody Tasks task) throws ParseException {
+        Optional<Tasks> taskToUpdate = taskRepository.findById(id);
+        if(taskToUpdate.isPresent()){
+            if(task.getName() != null) taskToUpdate.get().setName(task.getName());
+            if(task.getDescription() != null) taskToUpdate.get().setDescription(task.getDescription());
+            if(task.getPriority() != null) taskToUpdate.get().setPriority(task.getPriority());
+            if(task.getUser() != null) taskToUpdate.get().setUser(task.getUser());
+            if(task.getDate() != null){
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                Date parsedDate = dateFormat.parse(task.getDate());
+                Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                taskToUpdate.get().setDate(timestamp);
+            }
+            taskRepository.save(taskToUpdate.get());
+        } else {
+            return Constants.TASK_NOT_FOUND;
+        }
+        return "Updated";
     }
 }
