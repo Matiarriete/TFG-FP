@@ -2,7 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.Constants;
 import com.example.demo.entities.Tasks;
+import com.example.demo.entities.User;
 import com.example.demo.repositories.TaskRepository;
+import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ public class TaskController {
 
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public @ResponseBody Iterable<Tasks> getAllTask(){
@@ -30,6 +34,43 @@ public class TaskController {
         return taskRepository.findById(id);
     }
 
+    @GetMapping(path = "orderNameAsc")
+    public @ResponseBody Iterable<Tasks> orderNameAsc(){
+        return taskRepository.findAllByOrderByNameAsc();
+    }
+
+    @GetMapping(path = "orderNameDesc")
+    public @ResponseBody Iterable<Tasks> orderNameDesc(){
+        return taskRepository.findAllByOrderByNameDesc();
+    }
+
+    @GetMapping(path = "orderPriorityAsc")
+    public @ResponseBody Iterable<Tasks> orderPriorityAsc(){
+        return taskRepository.findAllByOrderByPriorityAsc();
+    }
+
+    @GetMapping(path = "orderPriorityDesc")
+    public @ResponseBody Iterable<Tasks> orderPriorityDesc(){
+        return taskRepository.findAllByOrderByPriorityDesc();
+    }
+
+    @GetMapping(path = "orderDateAsc")
+    public @ResponseBody Iterable<Tasks> orderDateAsc(){
+        return taskRepository.findAllByOrderByDateAsc();
+    }
+
+    @GetMapping(path = "orderDateDesc")
+    public @ResponseBody Iterable<Tasks> orderDateDesc(){
+        return taskRepository.findAllByOrderByDateDesc();
+    }
+
+//    @GetMapping(path = "/filter")
+//    public @ResponseBody Iterable<Tasks> filterTasks(
+//            @RequestParam(required = false) String nombre, @RequestParam(required = false) Boolean done,
+//            @RequestParam(required = false) Integer priority, @RequestParam(required = false) Integer idUser) {
+//        Optional<User> user = userRepository.findById(idUser);
+//        return taskRepository.findAllFiltered(nombre, done, priority, user.get());
+//    }
     @PostMapping(path = "/add")
     public @ResponseBody String createTasks(@RequestBody Tasks task) {
         task.setDone(false);
