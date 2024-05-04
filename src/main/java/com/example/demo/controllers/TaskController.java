@@ -64,13 +64,22 @@ public class TaskController {
         return taskRepository.findAllByOrderByDateDesc();
     }
 
-//    @GetMapping(path = "/filter")
-//    public @ResponseBody Iterable<Tasks> filterTasks(
-//            @RequestParam(required = false) String nombre, @RequestParam(required = false) Boolean done,
-//            @RequestParam(required = false) Integer priority, @RequestParam(required = false) Integer idUser) {
-//        Optional<User> user = userRepository.findById(idUser);
-//        return taskRepository.findAllFiltered(nombre, done, priority, user.get());
-//    }
+    @GetMapping(path = "filter")
+    public @ResponseBody Iterable<Tasks> filterTasks(
+            @RequestParam(required = false) String nombre, @RequestParam(required = false) Boolean done,
+            @RequestParam(required = false) Integer priority, @RequestParam(required = false) Integer idUser) {
+
+        if (idUser != null) {
+            Optional<User> user = userRepository.findById(idUser);
+            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, user.get());
+        } else {
+            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, null);
+        }
+
+
+    }
+
+
     @PostMapping(path = "/add")
     public @ResponseBody String createTasks(@RequestBody Tasks task) {
         task.setDone(false);
