@@ -20,7 +20,7 @@ public interface TaskRepository extends JpaRepository<Tasks, Integer> {
     @Query("SELECT t FROM Tasks t WHERE (:nombre IS NULL OR t.name = :nombre) " +
             "AND (:done IS NULL OR t.done = :done) " +
             "AND (:priority IS NULL OR t.priority = :priority) " +
-            "AND (:user IS NULL OR t.usuarios_idusuarios = :user)")
+            "AND (:user IS NULL OR t.user = :user)")
     List<Tasks> findByNameAndDoneAndPriorityAndUser(String nombre, Boolean done, Integer priority, User user);
 
 }
