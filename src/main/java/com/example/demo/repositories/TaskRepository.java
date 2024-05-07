@@ -17,7 +17,7 @@ public interface TaskRepository extends JpaRepository<Tasks, Integer> {
     List<Tasks> findAllByOrderByPriorityDesc();
     List<Tasks> findAllByOrderByDateAsc();
     List<Tasks> findAllByOrderByDateDesc();
-    @Query("SELECT t FROM Tasks t WHERE (:nombre IS NULL OR t.name = :nombre) " +
+    @Query("SELECT t FROM Tarea t WHERE (:nombre IS NULL OR t.name = :nombre) " +
             "AND (:done IS NULL OR t.done = :done) " +
             "AND (:priority IS NULL OR t.priority = :priority) " +
             "AND (:idUser IS NULL OR t.user.idUsuarios = :idUser)")
