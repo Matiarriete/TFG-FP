@@ -69,16 +69,15 @@ public class TaskController {
             @RequestParam(required = false) String nombre, @RequestParam(required = false) Boolean done,
             @RequestParam(required = false) Integer priority, @RequestParam(required = false) Integer idUser) {
 
-        if (idUser != null) {
-            Optional<User> user = userRepository.findById(idUser);
-            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, user.get());
-        } else {
-            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, null);
-        }
+//        if (idUser != null) {
+//            Optional<User> user = userRepository.findById(idUser);
+            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, idUser);
+//        } else {
+//            return taskRepository.findByNameAndDoneAndPriorityAndUser(nombre, done, priority, null);
+//        }
 
 
     }
-
 
     @PostMapping(path = "/add")
     public @ResponseBody String createTasks(@RequestBody Tasks task) {
