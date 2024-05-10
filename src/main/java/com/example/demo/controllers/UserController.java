@@ -31,6 +31,12 @@ public class UserController {
         return userRepository.findById(id);
     }
 
+    @GetMapping(params = "email")
+    public @ResponseBody Optional<User> getUserByEmail(@RequestParam String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
     @DeleteMapping(params = "id")
     public @ResponseBody String deleteUser(@RequestParam Integer id) {
         userRepository.deleteById(id);
